@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 const API_BASE_URL = process?.env?.NEXT_PUBLIC_API_KEY;
-console.log("API_BASE_URL", API_BASE_URL)
 
 type Method = "get" | "post" | "put" | "delete";
 

@@ -22,18 +22,14 @@ export default function SignIn() {
             password: Yup.string().required("Enter your password"),
         }),
         onSubmit: async (values: any, { resetForm }) => {
-            console.log('values', values)
 
             try {
                 const response: any = await AuthService.userLogin(values);
-                console.log('response', response?.data)
                 if (response.success) {
                     const token = response?.data?.token
-                    console.log('token :>> ', token);
                     localStorage.setItem('token', token)
 
                     const id = response?.data?.user?.id
-                    console.log('id :>> ', id);
                     localStorage.setItem('userId', id)
                     setisAuthenticated(token);
                     setUserId(id);

@@ -16,7 +16,6 @@ export default function CreateMovie() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const searchParamsId = searchParams?.get("id");
-    console.log('searchParamsId :>> ', searchParamsId);
 
     // Initialize form values
     const formik = useFormik({
@@ -43,7 +42,7 @@ export default function CreateMovie() {
                 if (searchParamsId) {
                     // If searchParamsId is available, update the movie
                     response = await AuthService.updateMovie(searchParamsId, formData);
-                    router.push('/movies'); 
+                    router.push('/movies');
                 } else {
                     // If searchParamsId is not available, create a new movie
                     response = await AuthService.createMovie(formData);
@@ -65,7 +64,6 @@ export default function CreateMovie() {
             const fetchMovieData = async () => {
                 try {
                     const response: any = await AuthService.getMovieById(searchParamsId);
-                    console.log('response?.data----- :>> ', response?.data);
                     const movie = response.data;
                     formik.setValues({
                         title: movie.title,
@@ -106,7 +104,6 @@ export default function CreateMovie() {
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const file = event.target.files?.[0];
-        console.log('file :>> ', file);
         if (file) {
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -136,14 +133,11 @@ export default function CreateMovie() {
                     </h5>
                 </div>
                 <div className="grid grid-cols-12">
-                    <div
-                        className="bg-[#224957] border-[2px] border-[#FFFFFF] border-dashed rounded-[10px] 
-            flex justify-center items-center h-[372px] lg:h-[504px] md:col-span-5 col-span-12"
+                    <div className="bg-[#224957] border-[2px] border-[#FFFFFF] border-dashed rounded-[10px] flex justify-center items-center h-[372px] lg:h-[504px] md:col-span-5 col-span-12"
                         onDragOver={handleDragOver}
                         onDrop={handleDrop}
                         onClick={handleBoxClick}
                     >
-                        {/* http://192.168.1.57:13000/media/ */}
                         {imageSrc ? (
                             <img src={`${searchParamsId ? `http://192.168.1.57:13000/media/${imageSrc}` : imageSrc}`} alt="Dropped or uploaded image" className="object-contain h-full w-full" />
                         ) : (
