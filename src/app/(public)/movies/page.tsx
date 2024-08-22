@@ -19,6 +19,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+const ApiKey = process.env.NEXT_PUBLIC_IMAGE
 
 export default function MoviesList() {
   const [allMovies, setAllMovies] = useState<MovieList[]>([]);
@@ -193,7 +194,7 @@ export default function MoviesList() {
                 </button>
                 <Image
                   src={
-                    "http://192.168.1.57:13000/media/" +
+                    ApiKey +
                     items?.media?.sys_filename
                   }
                   alt="movieImage1"
