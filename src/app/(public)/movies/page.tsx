@@ -26,17 +26,26 @@ export default function MoviesList() {
   const [pageSize, setPageSize] = useState<number>(12);
   const router = useRouter();
   const { setisAuthenticated } = useAuthContext();
-  useEffect(() => {
-    const getMovies = async () => {
-      const response: any = await AuthService.getMovies();
-      setAllMovies(response?.data?.movies);
 
-      if (response?.data?.movies?.length === 0) {
+  const getMovies = async () => {
+    try {
+      const response: any = await AuthService.getMovies();
+      const movies = response?.data?.movies || [];
+      setAllMovies(movies);
+      console.log("response?.dt?.movies", response?.data?.movies.length);
+
+      if (response?.data?.movies.length < 1) {
         router.push("/");
       }
-    };
+    } catch (error) {
+      console.log(error);
+      setAllMovies([]);
+    }
+  };
+
+  useEffect(() => {
     getMovies();
-  }, []);
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
@@ -59,14 +68,23 @@ export default function MoviesList() {
   const handleEdit = async (id: string) => {
     router.push(`/movies/createMovie?id=${id}`);
   };
-
+  //  let response;
   const handleDelete = async (id: string) => {
-    const response: any = await AuthService.deleteMovie(id);
-    console.log("response--------", response);
+    console.log(id, "ids");
+    if (!id) {
+      console.error("No ID provided for deletion.");
+      return;
+    }
+    await AuthService.deleteMovie(id);
+    await getMovies();
+    // const updatedResponse: any = 
+    // console.log(updatedResponse, "updatedResponse");
+    // setAllMovies(updatedResponse?.data?.movies || []);
   };
 
   const totalPages = Math.ceil(allMovies.length / pageSize);
   const startIndex = (currentPage - 1) * pageSize;
+  console.log(startIndex, "startIndex");
   const endIndex = startIndex + pageSize;
   const currentItems = allMovies.slice(startIndex, endIndex);
 
@@ -95,6 +113,7 @@ export default function MoviesList() {
         </div>
         <div className="grid grid-cols-12 gap-6 max-sm:gap-5">
           {currentItems?.map((items, index) => {
+            console.log(items, "items");
             return (
               <div
                 key={index}
