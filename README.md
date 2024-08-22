@@ -14,7 +14,11 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://103.232.124.169:22031/signIn](http://103.232.124.169:22031/signIn) with your browser to see the result.
+
+Credentials:
+Email: test@gmail.com
+Password: Test@123
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
